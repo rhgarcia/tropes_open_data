@@ -1,0 +1,84 @@
+\documentclass[a4paper,11pt,final]{article}
+\usepackage{fancyvrb, color, graphicx, hyperref, amsmath, url}
+\usepackage{minted}
+\usepackage{palatino}
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+
+\hypersetup
+{   pdfauthor = {Name Surname},
+  pdftitle={Simple test with Python and Matplotlib},
+  colorlinks=TRUE,
+  linkcolor=black,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+
+
+\title{Simple test with Python and Matplotlib}
+\author{Name Surname}
+\date{12nd December 2016}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+Just a simple example!
+
+\section{Hello world!}
+
+<<echo=False>>=
+import os
+import sys
+sys.path.append(os.getcwd())
+@
+
+The code says
+<%=
+from snippets import hello_world
+hello_world()
+%>
+
+\section{Reuse code}
+a value is <%=
+from snippets import Counter
+counter = Counter()
+counter.val
+%>
+and the next is <%=
+counter.add()
+%>.
+
+\section{Plot}
+
+Plot stuff.
+
+<<caption="Test!">>=
+#' let's print
+import sys
+print("python version {}".format(sys.version))
+
+[print (i) for i in range(10)]
+
+#' let's plot
+#' we import the modules
+import matplotlib.pyplot as plt
+import numpy as np
+#' we set the var x and y
+x = np.arange(1,10,1)
+y = x**2
+
+#' we plot!
+plt.plot(x,y, color= 'red')
+plt.show()
+@
+
+\section{End}
+
+A simple end.
+
+\end{document}
