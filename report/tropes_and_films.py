@@ -2,11 +2,11 @@ import json
 import os
 from collections import OrderedDict
 
+import matplotlib
+import matplotlib.pyplot as plt
 import numpy
 from scipy import stats
 
-import matplotlib.pyplot as plt
-import matplotlib
 
 def hello_world():
     return "Hello world"
@@ -88,16 +88,16 @@ class TropesAndFilms(object):
 
     def plot_films_histogram(self):
         x = self.trope_observations_by_film()
-        return self._get_histogram_for_observations(x)
+        return self._get_histogram_for_observations(x, "Number of tropes")
 
     def plot_tropes_histogram(self):
         x = self.film_observations_by_trope()
-        return self._get_histogram_for_observations(x)
+        return self._get_histogram_for_observations(x, "Number of films")
 
-    def _get_histogram_for_observations(self, x):
+    def _get_histogram_for_observations(self, x, x_label):
         n, bins, patches = plt.hist(x, 'auto', density=True, facecolor='blue', alpha=0.75, histtype="stepfilled")
         plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
-        plt.xlabel('Number of tropes')
+        plt.xlabel(x_label)
         plt.ylabel('')
         plt.title(r'Histogram')
         plt.grid(True)
@@ -105,15 +105,15 @@ class TropesAndFilms(object):
 
     def plot_films_boxplot(self):
         x = self.trope_observations_by_film()
-        return self._get_boplot_for_observations(x)
+        return self._get_boplot_for_observations(x, "Number of tropes")
 
     def plot_tropes_boxplot(self):
         x = self.film_observations_by_trope()
-        return self._get_boplot_for_observations(x)
+        return self._get_boplot_for_observations(x, "Number of films")
 
-    def _get_boplot_for_observations(self, x):
+    def _get_boplot_for_observations(self, x, x_label):
         plt.boxplot(x, vert=False)
-        plt.xlabel('Number of tropes')
+        plt.xlabel(x_label)
         plt.ylabel('')
         plt.title(r'Boxplot')
         plt.grid(True)

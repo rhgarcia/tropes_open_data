@@ -109,16 +109,16 @@ plt.show()
 
 \begin{table}[H]
 \centering
-\caption{Top10 films by number of tropes that they use}
-\label{top10-tropes-table}
-\begin{tabular}{@{}lr@{}}
+\caption{Top25 films by number of tropes that they use}
+\label{top25-tropes-table}
+\begin{tabular}{@{}llr@{}}
 \toprule
 \textbf{Film} & \textbf{N. tropes} \\ \midrule
 <<fig = False, results = 'tex', echo = False>>=
 occurrences = data.films_dictionary_sorted_by_number_of_tropes()
 top_films = list(occurrences.keys())[0:25]
-for film in top_films:
-    print("{} & {} \\\\ ".format(film, occurrences[film]))
+for index,film in enumerate(top_films):
+    print("{} & {} & {} \\\\ ".format(index+1, film, occurrences[film]))
 @
 \end{tabular}
 \end{table}
@@ -168,16 +168,16 @@ plt.show()
 
 \begin{table}[H]
 \centering
-\caption{Top10 tropes by number of films that they appear in}
-\label{top10-tropes-table}
-\begin{tabular}{@{}lr@{}}
+\caption{Top25 tropes by number of films that they appear in}
+\label{top25-tropes-table}
+\begin{tabular}{@{}llr@{}}
 \toprule
 \textbf{Film} & \textbf{N. films} \\ \midrule
 <<fig = False, results = 'tex', echo = False>>=
 occurrences = data.tropes_dictionary_sorted_by_number_of_films()
 top_tropes = list(occurrences.keys())[0:25]
-for trope in top_tropes:
-    print("{} & {} \\\\ ".format(trope, occurrences[trope]))
+for index,trope in enumerate(top_tropes):
+    print("{} & {} & {} \\\\ ".format(index+1, trope, occurrences[trope]))
 @
 \end{tabular}
 \end{table}
