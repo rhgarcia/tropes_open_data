@@ -1,0 +1,187 @@
+\documentclass[a4paper,11pt,final]{article}
+\usepackage{fancyvrb, color, graphicx, hyperref, amsmath, url}
+\usepackage{minted}
+\usepackage{palatino}
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{booktabs}
+\usepackage{float}
+\restylefloat{table}
+
+\hypersetup
+{   pdfauthor = {Rub\'en H. Garc\'ia-Ortega},
+  pdftitle={Tropes and films in TvTropes. Technical report},
+  colorlinks=TRUE,
+  linkcolor=black,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+<<echo=False>>=
+import os
+import sys
+sys.path.append(os.getcwd())
+from tropes_and_films import TropesAndFilms
+data = TropesAndFilms()
+@
+
+\title{Statistics on the tropes and films in TvTropes. Technical report}
+\author{Rub\'en H. Garc\'ia-Ortega}
+\date{23rd June 2018}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+A trope can be defined as any recurring plot device, motif, archetype or cliché used by the authors of creative works
+to build their books, films, comics and videogames, because they help them to reach their goals, that might vary from
+interest, surprise, familiarity, entertainment, etc. Some tropes are broadly adopted, as the three acts structure,
+the hero's journey, the McGuffin and the Chekhov's Gun, usually academically studied and promoted,
+but there are thousand of not-so-widely used tropes as well, discovered by professionals and enthusiastic of the
+storytelling. The study of the tropes is organic, dynamic and extensive, for this reason our
+reference is a wiki called TvTropes, that collects thousand of descriptions and examples of tropes from 2014 until now.
+The semantic network of knowledge behind TvTropes is huge and complex; it relates hierarchies of tropes with their usage
+in creative works in the pop culture. In order to make it usable by the community, AAA extracted all their data to
+RDF tuples in the so-called dbtropes.\\
+
+
+The goal os this report is to analyse the films and the tropes they use in dbtropes from a
+statistical point of view, so it can be used and cited in further researches.
+In the framework of the Open Data, the information
+found in the report is released under Creative Commons and the resources are publicly available in the repository.\\
+
+In order to easy the reproducibility of the results, the report includes python code chunks, and the values are
+dynamically calculated using pweave, scipy, numpy and matplotlib. The resulting pdf file is compiled through latex.\\
+
+\section{Pre-processing the data}
+
+dbtropes can be found as a 5GB RDF tuples file in aaaa. The size of the file makes it hard to load in a RDF tool
+in order to extract information. For this reason, we processed the file with regular expressions in a python script
+so we have a JSON file with films and the name of the tropes they use.\\
+
+The rdf file contains XXX lines of tuples, meanwhile the new JSON file has XXX lines.
+
+In order to easy the data analysis we will use two data structures: a dictionary of films where the values are lists
+of the tropes they use and the reversed dictionary, where the keys are the tropes and the values are lists of films that
+they are used in. The class that handles the python code can be found in.
+
+
+\section{Descriptive analysis of the films regarding their tropes}
+
+\begin{table}[H]
+\centering
+\caption{Descriptive analysis}
+\label{statistics-films-by-trope}
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Feature} & \textbf{Tropes in a film} \\ \midrule
+<<fig = False, results = 'tex', echo = False>>=
+statistics = data.descriptive_statistics_for_tropes_by_film()
+@
+Observations & <%= round(statistics["nobs"], 3) %> \\
+Minimum &  <%= round(statistics["min"], 3) %> \\
+Maximum &  <%= round(statistics["max"], 3) %> \\
+Mean &  <%= round(statistics["mean"], 3) %> \\
+Median &  <%= round(statistics["median"], 3) %> \\
+Q1 &  <%= round(statistics["q1"], 3) %> \\
+Q2 &  <%= round(statistics["q2"], 3) %> \\
+Q3 &  <%= round(statistics["q3"], 3) %> \\
+Variance & <%= round(statistics["variance"], 3) %> \\
+Skewness & <%= round(statistics["skewness"], 3) %> \\
+Kurtosis & <%= round(statistics["kurtosis"], 3) %> \\
+
+\end{tabular}
+\end{table}
+
+<<caption="Distribution of films by number of tropes", echo = False, f_pos = "H", f_size=(8,6)>>=
+import matplotlib.pyplot as plt
+plt.subplot(2, 1, 1)
+data.plot_films_histogram()
+plt.subplot(2, 1, 2)
+data.plot_films_boxplot()
+plt.show()
+@
+
+
+
+\begin{table}[H]
+\centering
+\caption{Top10 films by number of tropes that they use}
+\label{top10-tropes-table}
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Film} & \textbf{N. tropes} \\ \midrule
+<<fig = False, results = 'tex', echo = False>>=
+occurrences = data.films_dictionary_sorted_by_number_of_tropes()
+top_films = list(occurrences.keys())[0:25]
+for film in top_films:
+    print("{} & {} \\\\ ".format(film, occurrences[film]))
+@
+\end{tabular}
+\end{table}
+
+
+
+
+\section{Descriptive analysis of the tropes}
+
+
+\begin{table}[H]
+\centering
+\caption{Descriptive analysis}
+\label{statistics-films-by-trope}
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Feature} & \textbf{Tropes by film} \\ \midrule
+<<fig = False, results = 'tex', echo = False>>=
+statistics = data.descriptive_statistics_for_films_by_trope()
+@
+Observations & <%= round(statistics["nobs"], 3) %> \\
+Minimum &  <%= round(statistics["min"], 3) %> \\
+Maximum &  <%= round(statistics["max"], 3) %> \\
+Mean &  <%= round(statistics["mean"], 3) %> \\
+Median &  <%= round(statistics["median"], 3) %> \\
+Q1 &  <%= round(statistics["q1"], 3) %> \\
+Q2 &  <%= round(statistics["q2"], 3) %> \\
+Q3 &  <%= round(statistics["q3"], 3) %> \\
+Variance & <%= round(statistics["variance"], 3) %> \\
+Skewness & <%= round(statistics["skewness"], 3) %> \\
+Kurtosis & <%= round(statistics["kurtosis"], 3) %> \\
+
+\end{tabular}
+\end{table}
+
+
+<<caption="Distribution of tropes by number of films", echo = False, f_pos = "H", f_size=(8,6)>>=
+import matplotlib.pyplot as plt
+plt.subplot(2, 1, 1)
+data.plot_tropes_histogram()
+plt.subplot(2, 1, 2)
+data.plot_tropes_boxplot()
+plt.show()
+@
+
+
+
+\begin{table}[H]
+\centering
+\caption{Top10 tropes by number of films that they appear in}
+\label{top10-tropes-table}
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Film} & \textbf{N. films} \\ \midrule
+<<fig = False, results = 'tex', echo = False>>=
+occurrences = data.tropes_dictionary_sorted_by_number_of_films()
+top_tropes = list(occurrences.keys())[0:25]
+for trope in top_tropes:
+    print("{} & {} \\\\ ".format(trope, occurrences[trope]))
+@
+\end{tabular}
+\end{table}
+
+
+
+\end{document}
