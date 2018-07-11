@@ -8,8 +8,9 @@
 \restylefloat{table}
 
 \hypersetup
-{   pdfauthor = {Rub\'en H. Garc\'ia-Ortega},
-  pdftitle={Tropes and films in TvTropes. Technical report},
+{
+  pdfauthor = {Rub\'en H. Garc\'ia-Ortega},
+  pdftitle={Overview of PicTropes, a film trope dataset. Preliminary technical report},
   colorlinks=TRUE,
   linkcolor=black,
   citecolor=blue,
@@ -27,47 +28,73 @@ from tropes_and_films import TropesAndFilms
 data = TropesAndFilms()
 @
 
-\title{Statistics on the tropes and films in TvTropes. Technical report}
+\title{Overview of PicTropes, a film trope dataset.\\Preliminary technical report}
 \author{Rub\'en H. Garc\'ia-Ortega}
 \date{23rd June 2018}
 
 \begin{document}
 \maketitle
 
+\begin{abstract}
+   The following report provides a descriptive analysis on the dataset PicTropes, that links
+   <%= len(data.film_dictionary) %> films with <%= len(data.trope_dictionary) %> tropes
+   from the database DBTropes.org,
+   which in turn collects the information from the wiki TVTropes.org.
+   This preliminary study also includes and discusses graphical data distribution and top lists of both
+   film-by-trope and trope-by-film relations,
+   including further questions and proposing extensions of the dataset in order to explain the results.
+\end{abstract}
+
 \section{Introduction}
 
-A trope can be defined as any recurring plot device, motif, archetype or cliché used by the authors of creative works
-to build their books, films, comics and videogames, because they help them to reach their goals, that might vary from
-interest, surprise, familiarity, entertainment, etc. Some tropes are broadly adopted, as the three acts structure,
-the hero's journey, the McGuffin and the Chekhov's Gun, usually academically studied and promoted,
-but there are thousand of not-so-widely used tropes as well, discovered by professionals and enthusiastic of the
-storytelling. The study of the tropes is organic, dynamic and extensive, for this reason our
-reference is a wiki called TvTropes, that collects thousand of descriptions and examples of tropes from 2014 until now.
-The semantic network of knowledge behind TvTropes is huge and complex; it relates hierarchies of tropes with their usage
-in creative works in the pop culture. In order to make it usable by the community, AAA extracted all their data to
-RDF tuples in the so-called dbtropes.\\
+A trope can be defined as a recurring narrative device~\cite{baldick2015oxford}, whether it is
+technique, a motif, an archetype or a cliché,
+used by the authors to achieve specific effects that might vary from increasing the interest, surprising, recall familiarity,
+entertaining, etc, in their creative works, like books, films, comics or videogames.
+Some tropes are broadly adopted, academically studied and promoted, as
+the \textit{Three-act Structure} formulated by Syd Field~\cite{field1982screenplay},
+the \textit{Hero's Journey} studied by Vogler~\cite{vogler2007writer},
+the \textit{McGuffin} popularized by Hitchcock~\cite{truffaut1985hitchcock} and
+the \textit{Chekhov's Gun} developed by the russian writer with the eponymous name~\cite{bitsilli1983chekhov},
+but there are thousand of not-so-widely used tropes as well, discovered and catalogued everyday by professionals
+and enthusiastic of the storytelling;
+their study is organic, dynamic and extensive, for this reason our
+reference is a live wiki called TVTropes.org~\cite{tvtropes}, that is being collecting thousand of descriptions
+and examples of tropes from 2014 until now.
+The semantic network of knowledge behind TVTropes.org is huge and complex; it massively links hierarchies of tropes
+to their usage in creations for digital entertainment. However, the data is only available through its web interface,
+that's why, in order to make it usable by the scientific community, Kiesel~\cite{maltekiesel} extracted all
+their data to a database so-called DBTropes.org.\\
+
+DBTropes.org is released as a NTriples formatted RDF file that can be downloaded directly from their
+official site~\cite{maltekiesel}.
+The last release available was built in July 2016 and contains 2.1057.602 RDF statements,
+a large amount of data that makes it hard to
+load in a RDF visualization tool. For this reason, we extracted part of its information
+to a new dataset in JSON format, readable by most of the programming languages in a friendly manner,
+that is called PicTropes and contains just the films and the name of the tropes they use.
+This dataset can be used to build a recommendation system.\\
+
+The goal os this report is to extract valuable statistical data from the dataset PicTropes
+that shall be used in further researches and experiments related to machine learning
+and narrative generation. In particular, the results will be directly applicable to different researches
+in the context of the PhD
+\textit{Bio-inspired techniques for procedural generation of backstories in literature and open world videogames}.\\
+
+Following the principles of the Open Science,
+the dataset and the source files of the report are released under the
+\textit{Attribution-ShareAlike 3.0 Unported} License (CC BY-SA 3.0)
+in a public repository~\cite{ruben_tropes_open_data_2018}.
+The values and graphs included in the current report are
+dynamically calculated using pweave, scipy, numpy and matplotlib in order to allow the reproducibility.
 
 
-The goal os this report is to analyse the films and the tropes they use in dbtropes from a
-statistical point of view, so it can be used and cited in further researches.
-In the framework of the Open Data, the information
-found in the report is released under Creative Commons and the resources are publicly available in the repository.\\
-
-In order to easy the reproducibility of the results, the report includes python code chunks, and the values are
-dynamically calculated using pweave, scipy, numpy and matplotlib. The resulting pdf file is compiled through latex.\\
 
 \section{Pre-processing the data}
 
-dbtropes can be found as a 5GB RDF tuples file in aaaa. The size of the file makes it hard to load in a RDF tool
-in order to extract information. For this reason, we processed the file with regular expressions in a python script
-so we have a JSON file with films and the name of the tropes they use.\\
-
-The rdf file contains XXX lines of tuples, meanwhile the new JSON file has XXX lines.
-
-In order to easy the data analysis we will use two data structures: a dictionary of films where the values are lists
+In order to ease the data analysis we will use two data structures: a dictionary of films where the values are lists
 of the tropes they use and the reversed dictionary, where the keys are the tropes and the values are lists of films that
-they are used in. The class that handles the python code can be found in.
-
+they are used in. The class that handles the python code can be found in the repository~\cite{ruben_tropes_open_data_2018}.
 
 \section{Descriptive analysis of the films regarding their tropes}
 
@@ -182,6 +209,16 @@ for index,trope in enumerate(top_tropes):
 \end{tabular}
 \end{table}
 
+\section{Discussion}
+TODO por qués
+TODO tipo de distribución
+TODO dudas
+
+\section{Conclusions}
+
+
+\bibliographystyle{ieeetr}
+\bibliography{report}
 
 
 \end{document}
