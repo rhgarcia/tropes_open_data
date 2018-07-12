@@ -17,3 +17,16 @@ class TropesByFilmTestCase(unittest.TestCase):
         data = TropesAndFilms()
         data.plot_tropes_histogram()
 
+    def test_get_best_distribution_of_films_returns_values(self):
+        data = TropesAndFilms()
+        (distribution, parameters) = data.get_best_distribution_of_films()
+
+    def test_get_best_distribution_of_tropes_returns_values(self):
+        data = TropesAndFilms()
+        (distribution, parameters) = data.get_best_distribution_of_tropes()
+        pass
+
+    def test_plot_films_histogram(self):
+        data = TropesAndFilms()
+        data.plot_films_histogram()
+

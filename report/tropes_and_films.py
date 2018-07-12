@@ -1,5 +1,6 @@
 import json
 import os
+import warnings
 from collections import OrderedDict
 
 import matplotlib
@@ -100,13 +101,35 @@ class TropesAndFilms(object):
                 self.SKEWNESS_KEY: statistics.skewness,
                 self.KURTOSIS_KEY: statistics.kurtosis}
 
+    def fisk_parameters_for_tropes_by_films(self):
+        with warnings.catch_warnings():
+            warnings.filterwarnings('ignore')
+            observations = self.trope_observations_by_film()
+            return list(stats.fisk.fit(observations))
+
+
     def plot_films_histogram(self):
         observations = self.trope_observations_by_film()
-        return self._get_histogram_for_observations(observations, "Number of tropes")
+        plot = self._get_histogram_for_observations(observations, "Number of tropes")
+
+        with warnings.catch_warnings():
+            warnings.filterwarnings('ignore')
+            x = numpy.linspace(0, max(observations), 200)
+            params = stats.fisk.fit(observations)
+            pyplot.plot(x, stats.fisk.pdf(x, *list(params)), 'k-', alpha=0.7, lw=1, label='fisk pdf')
+        return plot
 
     def plot_tropes_histogram(self):
         observations = self.film_observations_by_trope()
-        return self._get_histogram_for_observations(observations, "Number of films")
+        plot = self._get_histogram_for_observations(observations, "Number of films")
+
+        # (0.13004461338888534, 0.9999999995458237, 3.7353586505372096)
+        with warnings.catch_warnings():
+            warnings.filterwarnings('ignore')
+            x = numpy.linspace(0, max(observations), 200)
+            params = stats.foldcauchy.fit(observations)
+            pyplot.plot(x, stats.foldcauchy.pdf(x, *list(params)), 'k-', alpha=0.7, lw=1, label='foldcauchy pdf')
+        return plot
 
     @staticmethod
     def _get_histogram_for_observations(observations, x_label):
@@ -134,3 +157,76 @@ class TropesAndFilms(object):
         pyplot.title(r'Boxplot')
         pyplot.grid(True)
         return pyplot
+
+    def get_best_distribution_of_films(self):
+        data = self.trope_observations_by_film()
+        return self._get_best_distribution(data)
+
+    def get_best_distribution_of_tropes(self):
+        data = self.film_observations_by_trope()
+        return self._get_best_distribution(data)
+
+    def _get_best_distribution(self, data, bins=200):
+
+        """Model data by finding best fit distribution to data"""
+        # Get histogram of original data
+        y, x = numpy.histogram(data, bins=bins, density=True)
+        x = (x + numpy.roll(x, -1))[:-1] / 2.0
+
+        # Distributions to check
+        DISTRIBUTIONS = [
+            stats.alpha, stats.anglit, stats.arcsine, stats.beta, stats.betaprime, stats.bradford, stats.burr,
+            stats.cauchy, stats.chi, stats.chi2, stats.cosine, stats.dgamma, stats.dweibull, stats.erlang,
+            stats.expon,
+            stats.exponnorm, stats.exponweib, stats.exponpow, stats.f, stats.fatiguelife, stats.fisk,
+            stats.foldcauchy,
+            stats.foldnorm, stats.frechet_r, stats.frechet_l, stats.genlogistic, stats.genpareto, stats.gennorm,
+            stats.genexpon, stats.genextreme, stats.gausshyper, stats.gamma, stats.gengamma, stats.genhalflogistic,
+            stats.gilbrat, stats.gompertz, stats.gumbel_r, stats.gumbel_l, stats.halfcauchy, stats.halflogistic,
+            stats.halfnorm, stats.halfgennorm, stats.hypsecant, stats.invgamma, stats.invgauss, stats.invweibull,
+            stats.johnsonsb, stats.johnsonsu, stats.ksone, stats.kstwobign, stats.laplace, stats.levy, stats.levy_l,
+            stats.levy_stable, stats.logistic, stats.loggamma, stats.loglaplace, stats.lognorm, stats.lomax,
+            stats.maxwell, stats.mielke, stats.nakagami, stats.ncx2, stats.ncf, stats.nct, stats.norm, stats.pareto,
+            stats.pearson3, stats.powerlaw, stats.powerlognorm, stats.powernorm, stats.rdist, stats.reciprocal,
+            stats.rayleigh, stats.rice, stats.recipinvgauss, stats.semicircular, stats.t, stats.triang,
+            stats.truncexpon, stats.truncnorm, stats.tukeylambda, stats.uniform, stats.vonmises,
+            stats.vonmises_line,
+            stats.wald, stats.weibull_min, stats.weibull_max, stats.wrapcauchy
+        ]
+
+        # Best holders
+        best_distribution = stats.norm
+        best_params = (0.0, 1.0)
+        best_sse = numpy.inf
+
+        # Estimate distribution parameters from data
+        for distribution in DISTRIBUTIONS:
+
+            # Try to fit the distribution
+            try:
+                # Ignore warnings from data that can't be fit
+                with warnings.catch_warnings():
+                    warnings.filterwarnings('ignore')
+
+                    # fit dist to data
+                    params = distribution.fit(data)
+
+                    # Separate parts of parameters
+                    arg = params[:-2]
+                    loc = params[-2]
+                    scale = params[-1]
+
+                    # Calculate fitted PDF and error with fit in distribution
+                    pdf = distribution.pdf(x, loc=loc, scale=scale, *arg)
+                    sse = numpy.sum(numpy.power(y - pdf, 2.0))
+
+                    # identify if this distribution is better
+                    if best_sse > sse > 0:
+                        best_distribution = distribution
+                        best_params = params
+                        best_sse = sse
+
+            except Exception:
+                pass
+
+        return (best_distribution.name, best_params)
