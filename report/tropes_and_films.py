@@ -107,33 +107,49 @@ class TropesAndFilms(object):
             observations = self.trope_observations_by_film()
             return list(stats.fisk.fit(observations))
 
+    def foldcauchy_parameters_for_films_by_tropes(self):
+        with warnings.catch_warnings():
+            warnings.filterwarnings('ignore')
+            observations = self.film_observations_by_trope()
+            return list(stats.foldcauchy.fit(observations))
 
     def plot_films_histogram(self):
         observations = self.trope_observations_by_film()
-        plot = self._get_histogram_for_observations(observations, "Number of tropes")
+        plot = self._get_histogram_for_observations(observations, "Number of tropes", dark=True)
+        return plot
 
+    def plot_films_histogram_and_line(self):
+        observations = self.trope_observations_by_film()
+        plot = self._get_histogram_for_observations(observations, "Number of tropes", dark=False)
         with warnings.catch_warnings():
             warnings.filterwarnings('ignore')
             x = numpy.linspace(0, max(observations), 200)
             params = stats.fisk.fit(observations)
             pyplot.plot(x, stats.fisk.pdf(x, *list(params)), 'k-', alpha=0.7, lw=1, label='fisk pdf')
+        pyplot.title("Estimated log-logistic distribution density "+str(params))
         return plot
 
     def plot_tropes_histogram(self):
         observations = self.film_observations_by_trope()
-        plot = self._get_histogram_for_observations(observations, "Number of films")
+        plot = self._get_histogram_for_observations(observations, "Number of films", dark=True)
+        return plot
 
-        # (0.13004461338888534, 0.9999999995458237, 3.7353586505372096)
+    def plot_tropes_histogram_and_line(self):
+        observations = self.film_observations_by_trope()
+        plot = self._get_histogram_for_observations(observations, "Number of films", dark=False)
+
         with warnings.catch_warnings():
             warnings.filterwarnings('ignore')
             x = numpy.linspace(0, max(observations), 200)
             params = stats.foldcauchy.fit(observations)
             pyplot.plot(x, stats.foldcauchy.pdf(x, *list(params)), 'k-', alpha=0.7, lw=1, label='foldcauchy pdf')
+        pyplot.title("Estimated folded Cauchy distribution density "+str(params))
         return plot
 
     @staticmethod
-    def _get_histogram_for_observations(observations, x_label):
-        pyplot.hist(observations, 'auto', density=True, facecolor='blue', alpha=0.75, histtype="stepfilled")
+    def _get_histogram_for_observations(observations, x_label, dark = True):
+        color = "blue" if dark else "aqua"
+        pyplot.hist(observations, 'auto', density=True, facecolor=color, alpha=0.75, histtype="stepfilled")
         pyplot.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
         pyplot.xlabel(x_label)
         pyplot.ylabel('')

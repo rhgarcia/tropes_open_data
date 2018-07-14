@@ -5,7 +5,8 @@ from invoke import task
 @task
 def clean(context):
     print("Cleaning ...")
-    patterns = ['*.log', 'report/_*', 'report/figures', 'report/*.aux', 'report/*.log', 'report/*.out', 'report/*.tex',
+    patterns = ['*.log', 'report/_*', 'report/figures', 'report/*.aux', 'report/*.log', 'report/*.out',
+                'report/report.tex',
                 'report/*.pdf', '*.pyc', 'report/*.pyc', 'report/*.bbl', 'report/*.blg']
     for pattern in patterns:
         context.run("rm -rf {}".format(pattern))
