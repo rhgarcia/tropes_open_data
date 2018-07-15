@@ -41,9 +41,11 @@ data = TropesAndFilms()
    <%= format(len(data.film_dictionary)) %> films with <%= format(len(data.trope_dictionary)) %> tropes
    from the database \textit{DBTropes.org},
    which in turn collects the information from the wiki \textit{TVTropes.org}.
-   This preliminary study also includes and discusses graphical data distribution and top lists of both
-   film-by-trope and trope-by-film relations,
-   including further questions and proposing extensions of the dataset in order to explain the results.
+   The extracted features will help us decide the best values for a future recommendation system and content generator,
+   whereas the analysis of the distribution functions that fit the best will help us interpret the relation
+   between the films and the tropes that were found inside them.
+   Additionally, we provide rankings of the  top-25 tropes and films will help us discuss and
+   formulate questions to guide future widenings of the PicTropes dataset.
 \end{abstract}
 
 \section{Introduction}
@@ -63,7 +65,7 @@ their study is organic, dynamic and extensive, for this reason our
 reference is a live wiki called \textit{TVTropes.org~}\cite{tvtropes}, that is being collecting thousand of descriptions
 and examples of tropes from 2014 until now.
 The semantic network of knowledge behind \textit{TVTropes.org} is huge and complex; it massively links hierarchies of tropes
-to their usage in creations for digital entertainment. However, the data is only available through its web interface,
+to their usage in creations for digital entertainment. The data, however, is only available through its web interface,
 that's why, in order to make it usable by the scientific community, Kiesel~\cite{maltekiesel} extracted all
 their data to a database so-called \textit{DBTropes.org}.\\
 
@@ -73,8 +75,7 @@ The last release available was built in July 2016 and contains 2,1057,602 RDF st
 a large amount of data that makes it hard to
 load in a RDF visualization tool. For this reason, we extracted part of its information
 to a new dataset in JSON format, readable by most of the programming languages in a friendly manner,
-that is called PicTropes and contains just the films and the name of the tropes they use.
-This dataset can be used to build a recommendation system.\\
+that is called PicTropes and contains just the films and the name of the tropes they use.\\
 
 The goal os this report is to extract valuable statistical data from the dataset PicTropes
 that shall be used in further researches and experiments related to machine learning
@@ -88,16 +89,18 @@ the dataset and the source files of the report are released under the
 in a public repository~\cite{ruben_tropes_open_data_2018}.
 The values and graphs included in the current report are
 dynamically calculated using pweave, scipy, numpy and matplotlib in order to allow the reproducibility.
-
-
-
-\section{Pre-processing the data}
+The class that handles the python code for the different calculations
+can be found in the repository~\cite{ruben_tropes_open_data_2018}.\\
 
 In order to ease the data analysis we will use two data structures: a dictionary of films where the values are lists
-of the tropes they use and the reversed dictionary, where the keys are the tropes and the values are lists of films that
-they are used in. The class that handles the python code can be found in the repository~\cite{ruben_tropes_open_data_2018}.
+of the tropes they use, analized in Section~\ref{sec:films-by-trope},
+and the reversed dictionary, where the keys are the tropes and the values are lists of films that
+they are used in, analized in Section~\ref{sec:tropes-by-film}.
+The information extracted from the dataset is discussed in Section~\ref{sec:discussion}
+and the Section~\ref{sec:conclusions} summarizes the conclusions.
 
-\section{Descriptive analysis of the number of tropes per film}
+
+\section{Descriptive analysis of the number of tropes per film} \label{sec:films-by-trope}
 
 <<fig = False, results = 'tex', echo = False>>=
 statistics_films = data.descriptive_statistics_for_tropes_by_film()
@@ -171,7 +174,7 @@ for index,film in enumerate(top_films):
 
 
 
-\section{Descriptive analysis of the number of films per trope}
+\section{Descriptive analysis of the number of films per trope} \label{sec:tropes-by-film}
 
 <<fig = False, results = 'tex', echo = False>>=
 statistics_tropes = data.descriptive_statistics_for_films_by_trope()
@@ -245,8 +248,8 @@ for index,trope in enumerate(top_tropes):
 \section{Discussion}
 
 The descriptive analysis of the data shows that, on average, a film contains <%= format(statistics_films["mean"]) %>
-tropes and that a trope is contained in <%= format(statistics_tropes["mean"]) %> films. However, the distribution
-in both cases, is long tailed:\\
+tropes and that a trope is contained in <%= format(statistics_tropes["mean"]) %> films.
+However, the distribution in both cases is long tailed:\\
 
 In the case of the films, some of them include hundred of tropes, but the majority include just some dozens.
 That's clearly visible in the top-25 ranking, where the difference between
@@ -255,31 +258,33 @@ and the bottom (\textit{<%= remove_quotes(list(occurrences_films.items())[24][0]
 is <%= format(100-(list(occurrences_films.values())[24]*100.0/list(occurrences_films.values())[0])) %>~\%.
 The reason why this difference is so big is not clear: It could be because they actually use more tropes or because
 the bigger the fandom is the more the analysis is performed and the more the tropes are found. It is specially
-noticeable that 22 out of the 25 belong to the adventure genre,
+noticeable that 22 out of the 25 belong to the \textit{adventure} genre,
 that 10 out of the 25 are about super-heroes of the comics,
 that most of the films belong to this millennium and are super-productions.
 In order to fully analyse the results, we would need extra meta information from external sources, for example,
-the average votes by the community, the release date, the genres or the popularity.\\
+the average votes by the community, the release date, the genres and the popularity.\\
 
 When we analyze the tropes, the effect of the long tail is even more noticeable and the difference between
 the top (\textit{<%= remove_quotes(list(occurrences_tropes.items())[0][0]) %>})
 and the bottom (\textit{<%= remove_quotes(list(occurrences_tropes.items())[24][0]) %>})
 in the top-25 ranking is
 <%= format(100-(list(occurrences_tropes.values())[24]*100.0/list(occurrences_tropes.values())[0])) %>~\%.
-The trope \textit{Shout out}, deliberate allusions or references to other sources of
-inspiration, is by far the most used and it appears in the
+The trope \textit{Shout out}, deliberate allusions to other sources of
+inspiration, is by far the most used and appears in the
 <%= format(list(occurrences_tropes.values())[0]*100.0/len(data.film_dictionary)) %>~\% of the analyzed films.
-Again, the explanation of the distribution graph would require extra information, and, perhaps, a good
-ontology of tropes by different features.
+Looking at the long-tailed distribution function and the big differences in the top-25,
+we could ask ourselves new interesting questions:
+is the variance so considerable because of the popularity in the films or in the fandom?
+Is the top-25 so widely discovered in the films because they are the \textit{master} formula of the entertainment
+or it is because they are easy to apply in every story? In order to answer these questions, again, we would
+require extra information, and, perhaps, a good ontology of tropes by different features.
 
-Finally, it is important to remark that the last dump of \textit{DBTropes.org} was extracted in 2016 and that's the
-reason why we cannot find newer films. The information in \textit{TVTropes.org} could've been modified in many
-ways since then so we could get more accurate information if a new version of \textit{DBTropes.org} were available
-or if we build a way to extract the information.
+Finally, it is important to remark that the last dump of \textit{DBTropes.org} was extracted in 2016. With newer data
+the analysis could've been updated as we could've consider newer films and tropes.
 
 \section{Conclusions}
 
-The dataset PicTropes allowed shows...
+The dataset PicTropes ...
 
 
 \bibliographystyle{ieeetr}
