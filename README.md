@@ -6,6 +6,11 @@ Get `invoke`
 
     pip install -e git+https://github.com/pyinvoke/invoke#egg=invoke
 
+Install required libraries
+
+    pip install scipy
+    
+    
 Install `pweave`
 
     pip install --upgrade Pweave
