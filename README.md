@@ -8,14 +8,14 @@ Get `invoke`
 
 Install required libraries
 
-    pip install scipy
-    
-    
+    pip install scipy matplotlib
+
+
 Install `pweave`
 
     pip install --upgrade Pweave
-    
-Use it to generate the document
+
+Use it to generate the document from the command line
 
 ```
 > invoke clean build open-pdf

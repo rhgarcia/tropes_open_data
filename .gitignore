@@ -8,4 +8,5 @@ _minted-report/
 *.log
 *.out
 *.pdf
+*.pyg
 report.tex
