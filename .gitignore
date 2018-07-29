@@ -1,0 +1,12 @@
+src/
+report/figures/
+__pycache__/
+_minted-report/
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.pdf
+*.pyg
+report.tex

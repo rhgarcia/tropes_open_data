@@ -139,7 +139,7 @@ Kurtosis & <%= format(statistics_films["kurtosis"]) %> \\ \bottomrule
 
 \end{tabular}
 \end{table}
-
+% Please make a figure environment for every figure, with caption.
 <<distribution:films, caption="Distribution of the number of tropes per film", echo = False, f_pos = "H", f_size=(8,10), label="distribution:films">>=
 import matplotlib.pyplot as plt
 plt.subplot(3, 1, 1)
@@ -148,6 +148,7 @@ plt.subplot(3, 1, 2)
 data.plot_films_histogram_and_line()
 plt.subplot(3, 1, 3)
 data.plot_films_boxplot()
+# This boxplot is not very useful... It's already clear that the distribution is skewed - JJ
 plt.show()
 @
 
@@ -215,6 +216,7 @@ Kurtosis & <%= format(statistics_tropes["kurtosis"]) %> \\ \bottomrule
 \end{tabular}
 \end{table}
 
+% So much whitespace is not good either. Use logscale for x. Again, Boxplot not very useful - JJ
 <<distribution:tropes, caption="Distribution of the number of films per trope", echo = False, f_pos = "H", f_size=(8,10), label="distribution:tropes">>=
 import matplotlib.pyplot as plt
 plt.subplot(3, 1, 1)
