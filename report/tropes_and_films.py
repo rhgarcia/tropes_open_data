@@ -151,7 +151,8 @@ class TropesAndFilms(object):
         color = "blue" if dark else "aqua"
         pyplot.hist(observations, 'auto', density=True, facecolor=color, alpha=0.75, histtype="stepfilled")
         pyplot.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.4)
-        pyplot.xlabel(x_label)
+        pyplot.xlabel("log({})".format(x_label))
+        pyplot.xscale("log")
         pyplot.ylabel('')
         pyplot.title(r'Histogram')
         pyplot.grid(True)
@@ -169,6 +170,7 @@ class TropesAndFilms(object):
     def _get_boxplot_for_observations(observations, x_label):
         pyplot.boxplot(observations, vert=False)
         pyplot.xlabel(x_label)
+        pyplot.xscale("log")
         pyplot.ylabel('')
         pyplot.title(r'Boxplot')
         pyplot.grid(True)

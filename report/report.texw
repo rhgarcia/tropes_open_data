@@ -10,7 +10,7 @@
 \hypersetup
 {
   pdfauthor = {Rub\'en H. Garc\'ia-Ortega},
-  pdftitle={Overview of PicTropes, a film trope dataset. Preliminary technical report},
+  pdftitle={Overview of PicTropes, a film trope dataset},
   colorlinks=TRUE,
   linkcolor=black,
   citecolor=blue,
@@ -29,7 +29,7 @@ from utils import format, remove_quotes
 data = TropesAndFilms()
 @
 
-\title{Overview of PicTropes, a film trope dataset.\\Preliminary technical report}
+\title{Overview of PicTropes, a film trope dataset.}
 \author{Rub\'en H. Garc\'ia-Ortega}
 \date{23rd June 2018}
 
@@ -90,14 +90,14 @@ in a public repository~\cite{ruben_tropes_open_data_2018}.
 The values and graphs included in the current report are
 dynamically calculated using pweave, scipy, numpy and matplotlib in order to allow the reproducibility.
 The class that handles the python code for the different calculations
-can be found in the repository~\cite{ruben_tropes_open_data_2018}.\\
+can be found in the same repository.\\
 
 In order to ease the data analysis we will use two data structures: a dictionary of films where the values are lists
 of the tropes they use, analized in Section~\ref{sec:films-by-trope},
 and the reversed dictionary, where the keys are the tropes and the values are lists of films that
 they are used in, analized in Section~\ref{sec:tropes-by-film}.
 The information extracted from the dataset is discussed in Section~\ref{sec:discussion}
-and the Section~\ref{sec:conclusions} summarizes the conclusions.
+and the Section~~\ref{sec:conclusions} summarizes the conclusions.
 
 
 \section{Descriptive analysis of the number of tropes per film} \label{sec:films-by-trope}
@@ -140,15 +140,12 @@ Kurtosis & <%= format(statistics_films["kurtosis"]) %> \\ \bottomrule
 \end{tabular}
 \end{table}
 % Please make a figure environment for every figure, with caption.
-<<distribution:films, caption="Distribution of the number of tropes per film", echo = False, f_pos = "H", f_size=(8,10), label="distribution:films">>=
+<<distribution:films, caption="Distribution of the number of tropes per film", echo = False, f_pos = "H", f_size=(8,7), label="distribution:films">>=
 import matplotlib.pyplot as plt
-plt.subplot(3, 1, 1)
+plt.subplot(2, 1, 1)
 data.plot_films_histogram()
-plt.subplot(3, 1, 2)
+plt.subplot(2, 1, 2)
 data.plot_films_histogram_and_line()
-plt.subplot(3, 1, 3)
-data.plot_films_boxplot()
-# This boxplot is not very useful... It's already clear that the distribution is skewed - JJ
 plt.show()
 @
 
@@ -216,15 +213,12 @@ Kurtosis & <%= format(statistics_tropes["kurtosis"]) %> \\ \bottomrule
 \end{tabular}
 \end{table}
 
-% So much whitespace is not good either. Use logscale for x. Again, Boxplot not very useful - JJ
-<<distribution:tropes, caption="Distribution of the number of films per trope", echo = False, f_pos = "H", f_size=(8,10), label="distribution:tropes">>=
+<<distribution:tropes, caption="Distribution of the number of films per trope", echo = False, f_pos = "H", f_size=(8,7), label="distribution:tropes">>=
 import matplotlib.pyplot as plt
-plt.subplot(3, 1, 1)
+plt.subplot(2, 1, 1)
 data.plot_tropes_histogram()
-plt.subplot(3, 1, 2)
+plt.subplot(2, 1, 2)
 data.plot_tropes_histogram_and_line()
-plt.subplot(3, 1, 3)
-data.plot_tropes_boxplot()
 plt.show()
 @
 
@@ -247,7 +241,7 @@ for index,trope in enumerate(top_tropes):
 
 
 
-\section{Discussion}
+\section{Discussion} \label{sec:discussion}
 
 The descriptive analysis of the data shows that, on average, a film contains <%= format(statistics_films["mean"]) %>
 tropes and that a trope is contained in <%= format(statistics_tropes["mean"]) %> films.
@@ -284,9 +278,44 @@ require extra information, and, perhaps, a good ontology of tropes by different 
 Finally, it is important to remark that the last dump of \textit{DBTropes.org} was extracted in 2016. With newer data
 the analysis could've been updated as we could've consider newer films and tropes.
 
-\section{Conclusions}
+\section{Conclusions} \label{sec:conclusions}
 
-The dataset PicTropes ...
+The goal of the following report is to provide the descriptive analysis and a further discussion on the dataset
+\textit{PicTropes}, that links <%= format(len(data.film_dictionary)) %> films
+with <%= format(len(data.trope_dictionary)) %> tropes from the database \textit{DBTropes.org}.
+
+In order to achieve the goal, two analysis have been performed, one on the tropes by film
+and other on the films by trope. Both analysis included statistical descriptive analysis,
+probability distribution fitting and a list of the top elements.
+
+
+The results show the number of tropes in a film goes up to <%= list(occurrences_films.items())[0][1] %>
+(\textit{<%= remove_quotes(list(occurrences_films.items())[0][0]) %>});
+however, the average of tropes by film is (<%= round(statistics_films["mean"], 3) %>) and the data fits a
+log-logistic distribution (\textit{location}=<%= round(fisk_parameters[0],3) %>,
+\textit{shape}=<%= round(fisk_parameters[1],3) %>, \textit{scale}=<%= round(fisk_parameters[2],3) %>).
+In the discussion, we point out the fact that most of the films with
+more tropes are super-productions, a dozen of years old at maximum and in the adventure genre.
+
+Regarding the tropes, the number of films by trope goes up to <%= list(occurrences_tropes.items())[0][1] %>
+(\textit{<%= remove_quotes(list(occurrences_tropes.items())[0][0]) %>});
+however, the average of films by trope is (<%= round(statistics_tropes["mean"], 3) %>) and the data fits a
+folded Cauchy distribution (\textit{location}=<%= round(foldcauchy_parameters[0],3) %>,
+\textit{shape}=<%= round(foldcauchy_parameters[1],3) %>, \textit{scale}=<%= round(foldcauchy_parameters[2],3) %>).
+In the discussion, we show the need to have a good ontology of tropes so we can determine the root of the popularity
+of a small minority of tropes: if they are just easy to use or if their use correspond to other creative decisions.
+
+This analysis is useful because it can be used together with the dataset \textit{PicTropes} to
+automatically generate plots that follow the canonical appearance of tropes based in empirical observations,
+by using data mining and machine learning techniques. The results will be directly applicable to different researches
+in the context of the PhD
+\textit{Bio-inspired techniques for procedural generation of backstories in literature and open world videogames}.\\
+
+Finally, as future work, we could avoid some current limitations of the dataset by adding films meta information
+(as genre ontology, votes, popularity or release date) and tropes meta information (as the ease of application
+and the effects of this application), so the automatic generation could lead to plots with higher quality.
+It would imply retrieving data from movie databases using different techniques
+and prepare it so it matches with the tropes and films uniquely.
 
 
 \bibliographystyle{ieeetr}
