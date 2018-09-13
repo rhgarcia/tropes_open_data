@@ -44,7 +44,7 @@ data = TropesAndFilms()
    The extracted features will help us decide the best values for a future recommendation system and content generator,
    whereas the analysis of the distribution functions that fit the best will help us interpret the relation
    between the films and the tropes that were found inside them.
-   Additionally, we provide rankings of the  top-25 tropes and films will help us discuss and
+   Additionally, we provide rankings of the  top-25 tropes and films, which will help us discuss and
    formulate questions to guide future widenings of the PicTropes dataset.
 \end{abstract}
 
@@ -53,20 +53,20 @@ data = TropesAndFilms()
 A trope can be defined as a recurring narrative device~\cite{baldick2015oxford}, whether it is
 technique, a motif, an archetype or a \textit{cliché},
 used by the authors to achieve specific effects that might vary from increasing the interest, surprising, recall familiarity,
-entertaining, etc, in their creative works, like books, films, comics or videogames.
-Some tropes are broadly adopted, academically studied and promoted, as
+entertaining, etc, in their creative works, such as books, films, comics or videogames.
+Some tropes are broadly adopted, academically studied and promoted, such as
 the \textit{Three-act Structure} formulated by Syd Field~\cite{field1982screenplay},
 the \textit{Hero's Journey} studied by Vogler~\cite{vogler2007writer},
 the \textit{McGuffin} popularized by Hitchcock~\cite{truffaut1985hitchcock} and
-the \textit{Chekhov's Gun} developed by the russian writer with the eponymous name~\cite{bitsilli1983chekhov},
-but there are thousand of not-so-widely used tropes as well, discovered and catalogued everyday by professionals
+the \textit{Chekhov's Gun} developed by the Russian writer with the eponymous name~\cite{bitsilli1983chekhov},
+but there are thousands of not-so-widely used tropes as well, discovered and catalogued everyday by professionals
 and enthusiastic of the storytelling;
-their study is organic, dynamic and extensive, for this reason our
+their study is organic, dynamic and extensive. For this reason our
 reference is a live wiki called \textit{TVTropes.org~}\cite{tvtropes}, that is being collecting thousand of descriptions
 and examples of tropes from 2014 until now.
 The semantic network of knowledge behind \textit{TVTropes.org} is huge and complex; it massively links hierarchies of tropes
 to their usage in creations for digital entertainment. The data, however, is only available through its web interface,
-that's why, in order to make it usable by the scientific community, Kiesel~\cite{maltekiesel} extracted all
+which is why, in order to make it usable by the scientific community, Kiesel~\cite{maltekiesel} extracted all
 their data to a database so-called \textit{DBTropes.org}.\\
 
 \textit{DBTropes.org} is released as a NTriples formatted RDF file that can be downloaded directly from their
@@ -89,15 +89,15 @@ the dataset and the source files of the report are released under the
 in a public repository~\cite{ruben_tropes_open_data_2018}.
 The values and graphs included in the current report are
 dynamically calculated using pweave, scipy, numpy and matplotlib in order to allow the reproducibility.
-The class that handles the python code for the different calculations
+The class that handles the Python code for the different calculations
 can be found in the same repository.\\
 
 In order to ease the data analysis we will use two data structures: a dictionary of films where the values are lists
 of the tropes they use, analized in Section~\ref{sec:films-by-trope},
 and the reversed dictionary, where the keys are the tropes and the values are lists of films that
-they are used in, analized in Section~\ref{sec:tropes-by-film}.
+they are used in, analyzed in Section~\ref{sec:tropes-by-film}.
 The information extracted from the dataset is discussed in Section~\ref{sec:discussion}
-and the Section~~\ref{sec:conclusions} summarizes the conclusions.
+and Section~~\ref{sec:conclusions} summarizes the conclusions.
 
 
 \section{Descriptive analysis of the number of tropes per film} \label{sec:films-by-trope}
@@ -189,7 +189,7 @@ As shown in Figure~\ref{fig:distribution:tropes} the data fits a
 folded Cauchy distribution (\textit{location}=<%= round(foldcauchy_parameters[0],3) %>,
 \textit{shape}=<%= round(foldcauchy_parameters[1],3) %>, \textit{scale}=<%= round(foldcauchy_parameters[2],3) %>).
 The features of the descriptive analysis can be found in Table~\ref{statistics-films-by-trope}
-whereas the top-25 ranking of tropes by the number of film they appear in is provided in
+whereas the top-25 ranking of tropes by the number of films they appear in is provided in
 Table~\ref{top25-tropes-table} for further analysis.
 
 \begin{table}[H]
@@ -306,7 +306,7 @@ In the discussion, we show the need to have a good ontology of tropes so we can 
 of a small minority of tropes: if they are just easy to use or if their use correspond to other creative decisions.
 
 This analysis is useful because it can be used together with the dataset \textit{PicTropes} to
-automatically generate plots that follow the canonical appearance of tropes based in empirical observations,
+automatically generate plots that follow the canonical appearance of tropes based on empirical observations,
 by using data mining and machine learning techniques. The results will be directly applicable to different researches
 in the context of the PhD
 \textit{Bio-inspired techniques for procedural generation of backstories in literature and open world videogames}.\\
