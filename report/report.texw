@@ -53,7 +53,7 @@ data = TropesAndFilms()
 
 \section{Introduction}
 
-A trope can be defined as a recurring narrative device~\cite{baldick2015oxford}, whether it is a
+A trope can be defined as a recurring narrative device~\cite{baldick2015oxford};  it can be a
 technique, a motif, an archetype or a \textit{cliché},
 used by the authors to achieve specific effects that might vary from increasing the interest, surprising, recall familiarity,
 entertaining, etc, in their creative works, such as books, films, comics or videogames.
@@ -260,7 +260,8 @@ the top (\textit{<%= remove_quotes(list(occurrences_films.items())[0][0]) %>})
 and the bottom (\textit{<%= remove_quotes(list(occurrences_films.items())[24][0]) %>})
 is <%= format(100-(list(occurrences_films.values())[24]*100.0/list(occurrences_films.values())[0])) %>~\%.
 The reason why this difference is so big is not clear: It could be because they actually use more tropes or because
-the bigger the fandom is the more the analysis is performed and the more the tropes are found. % This should go to the description of the dataset, in the table above. Basically, you should describe how the data set is created too - JJ
+the bigger the fandom is the more the analysis is performed and the more the tropes are found.
+% This should go to the description of the dataset, in the table above. Basically, you should describe how the data set is created too - JJ
 It is specially
 noticeable that 22 out of the 25 belong to the \textit{adventure} genre,
 that 10 out of the 25 are about super-heroes of the comics,
