@@ -10,3 +10,4 @@ _minted-report/
 *.pdf
 *.pyg
 report.tex
+*.tgz
