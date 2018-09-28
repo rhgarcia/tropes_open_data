@@ -6,11 +6,20 @@
 \usepackage{booktabs}
 \usepackage{float}
 \restylefloat{table}
+\usepackage{authblk}
+
+\author[1]{Rub\'en H. Garc\'ia-Ortega}
+\author[2]{Juan J. Merelo Guerv\'os}
+\author[3]{Pablo Garc\'ia Garc\'ia}
+\author[4]{Gad Pitaru}
+\affil[1,4]{Badger Maps, San Francisco, CA, USA}
+\affil[2,3]{Universidad de Granada, Spain}
+\renewcommand\Authands{ and }
 
 \hypersetup
 {
   pdfauthor = {Rub\'en H. Garc\'ia-Ortega},
-  pdftitle={Overview of PicTropes, a film trope dataset},
+  pdftitle={Overview of \textit{PicTropes}, a film trope dataset},
   colorlinks=TRUE,
   linkcolor=black,
   citecolor=blue,
@@ -29,26 +38,21 @@ from utils import format, remove_quotes
 data = TropesAndFilms()
 @
 
-\title{Overview of PicTropes, a film trope dataset.}
-\author{Rub\'en H. Garc\'ia-Ortega}
+\title{Overview of \textit{PicTropes}, a film trope dataset.}
 \date{23rd June 2018}
-
-% Si no vas a incorporar esto a tu tesis, conviene que pongas como autores a todos los que hemos participado - JJ
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-% From (source), we have created a database of (x) which we have called PicTropes. In this report ... - JJ
-   The following report provides a descriptive analysis on the dataset PicTropes, that links
-   <%= format(len(data.film_dictionary)) %> films with <%= format(len(data.trope_dictionary)) %> tropes
-   from the database \textit{DBTropes.org},
-   which in turn collects the information from the wiki \textit{TVTropes.org}.
+   From the database \textit{DBTropes.org}, we have created a dataset of films and the tropes that they use,
+   which we have called \textit{PicTropes}.
+   In this report we provide the descriptive analysis and a further discussion on the dataset \textit{PicTropes}:
    The extracted features will help us decide the best values for a future recommendation system and content generator,
    whereas the analysis of the distribution functions that fit the best will help us interpret the relation
    between the films and the tropes that were found inside them.
    Additionally, we provide rankings of the  top-25 tropes and films, which will help us discuss and
-   formulate questions to guide future extensions of the PicTropes dataset.
+   formulate questions to guide future extensions of the \textit{PicTropes} dataset.
 \end{abstract}
 
 \section{Introduction}
@@ -76,12 +80,11 @@ official site~\cite{maltekiesel}.
 The last release available was built in July 2016 and contains 2,1057,602 RDF statements,
 a large amount of data that makes it hard to import it in a RDF visualization tool.
 
-% From here on, it's what you have done. Don't hide it in the middle of a paragraph. Always say: In this work, we describe how... - JJ
-For this reason, we extracted part of its information
+In this work, we extract part of its information
 to a new dataset in JSON format, readable by most of the programming languages in a friendly manner,
-that is called PicTropes and contains just the films and the name of the tropes they use.\\
+that is called \textit{PicTropes} and contains just the films and the name of the tropes they use.\\
 
-The goal os this report is to extract valuable statistical data from the dataset PicTropes
+The goal of this report is to extract valuable statistical data from the dataset \textit{PicTropes}
 that shall be used in further researches and experiments related to machine learning
 and narrative generation. In particular, the results will be directly applicable to different researches
 in the context of the PhD
@@ -112,13 +115,11 @@ occurrences_films = data.films_dictionary_sorted_by_number_of_tropes()
 fisk_parameters = data.fisk_parameters_for_tropes_by_films()
 @
 
-% Which dataset? PicTropes? If subject is PicTropes, always say PicTropes - JJ
-The dataset contains <%= format(round(statistics_films["nobs"], 3)) %> films with the tropes that have been
+The dataset \textit{PicTropes} contains <%= format(round(statistics_films["nobs"], 3)) %> films with the tropes that have been
 found in each of them. The number of tropes in a film goes up to <%= list(occurrences_films.items())[0][1] %>
 (\textit{<%= remove_quotes(list(occurrences_films.items())[0][0]) %>});
 however, the great majority of films have just a few dozens of tropes
-(<%= round(statistics_films["mean"], 3) %> on average).
-% Whenever the distribution is skewed, use also median, not only average - JJ
+(<%= round(statistics_films["mean"], 3) %> on average and <%= round(statistics_films["median"], 3) %> on median).
 As shown in Figure~\ref{fig:distribution:films} the data fits a
 log-logistic distribution (\textit{location}=<%= round(fisk_parameters[0],3) %>,
 \textit{shape}=<%= round(fisk_parameters[1],3) %>, \textit{scale}=<%= round(fisk_parameters[2],3) %>).
@@ -187,11 +188,11 @@ occurrences_tropes = data.tropes_dictionary_sorted_by_number_of_films()
 foldcauchy_parameters = data.foldcauchy_parameters_for_films_by_tropes()
 @
 
-The dataset contains <%= format(round(statistics_tropes["nobs"], 3)) %> tropes with the films where they have been
+The dataset \textit{PicTropes} contains <%= format(round(statistics_tropes["nobs"], 3)) %> tropes with the films where they have been
 found. The number of films where a specific trope appears goes up to <%= list(occurrences_tropes.items())[0][1] %>
 (\textit{<%= remove_quotes(list(occurrences_tropes.items())[0][0]) %>});
 however, the great majority of tropes are only found in a few films
-(<%= round(statistics_tropes["mean"], 3) %> on average). % See above about median - JJ
+(<%= round(statistics_tropes["mean"], 3) %> on average and <%= round(statistics_tropes["median"], 3) %> on median).
 As shown in Figure~\ref{fig:distribution:tropes} the data fits a
 folded Cauchy distribution (\textit{location}=<%= round(foldcauchy_parameters[0],3) %>,
 \textit{shape}=<%= round(foldcauchy_parameters[1],3) %>, \textit{scale}=<%= round(foldcauchy_parameters[2],3) %>).
@@ -252,7 +253,7 @@ for index,trope in enumerate(top_tropes):
 
 The descriptive analysis of the data shows that, on average, a film contains <%= format(statistics_films["mean"]) %>
 tropes and that a trope is contained in <%= format(statistics_tropes["mean"]) %> films.
-However, the distribution in both cases is long tailed:\\ % Why the colon? - JJ
+However, the distribution in both cases is long tailed.
 
 In the case of the films, some of them include hundred of tropes, but the majority include just a few dozens.
 That's clearly visible in the top-25 ranking, where the difference between
@@ -266,8 +267,12 @@ It is specially
 noticeable that 22 out of the 25 belong to the \textit{adventure} genre,
 that 10 out of the 25 are about super-heroes of the comics,
 that most of the films belong to this millennium and are super-productions.
-In order to fully analyse the results, we would need extra meta information from external sources, for example,
-the average votes by the community, the release date, the genres and the popularity.\\ % This has nothing to do with the number of tropes per film. You are making the statement that the number of tropes per film might be dependent on the action, and saying that maybe there is a correlation between the number of tropes and the "attention". You might want to make a "hard" statement or propose that as future work, but you also have to find a way to ground that statement or else to find missing tropes, and talk about it int he discussion - JJ
+
+In order to fully analyze the results we should study a possible correlation between the "attention" and the number of tropes.
+External movie databases as \textit{IMDB} or \textit{Movielens} provide the popularity of the films, votes, genres and release dates;
+with this extra information we could make solid statements that could help us to ignore tropes or find hidden ones.
+Furthermore, knowing the rating of the films would help apply Machine Learning techniques to predict the intrinsic quality
+of a set of tropes.
 
 When we analyze the tropes, the effect of the long tail is even more noticeable and the difference between
 the top (\textit{<%= remove_quotes(list(occurrences_tropes.items())[0][0]) %>})
@@ -290,7 +295,7 @@ the analysis could've been updated as we could've consider newer films and trope
 \section{Conclusions} \label{sec:conclusions}
 
 The goal of the following report is to provide the descriptive analysis and a further discussion on the dataset
-\textit{PicTropes}, % This should go to the abstract too - JJ
+\textit{PicTropes},
 that links <%= format(len(data.film_dictionary)) %> films
 with <%= format(len(data.trope_dictionary)) %> tropes from the database \textit{DBTropes.org}.
 
@@ -321,13 +326,14 @@ by using data mining and machine learning techniques. The results will be direct
 in the context of the PhD
 \textit{Bio-inspired techniques for procedural generation of backstories in literature and open world videogames}.\\
 
-Finally, as future work, we could avoid some current limitations of the dataset by adding films meta information
+Finally, as future work, we could avoid some current limitations of the dataset \textit{PicTropes} by adding films meta information
 (as genre ontology, votes, popularity or release date) and tropes meta information (as the ease of application
 and the effects of this application), so the automatic generation could lead to plots with higher quality.
 It would imply retrieving data from movie databases using different techniques
 and prepare it so it matches with the tropes and films uniquely.
+Regarding \textit{DBTropes.org}, as its last dump was extracted in 2016, it could be interesting to contribute
+to the project in order to have a newer version, with the latests additions and contributions.
 
-% Also scrape tvtropes to create a new DBTropes. - JJ
 
 \bibliographystyle{ieeetr}
 \bibliography{report}
