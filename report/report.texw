@@ -222,7 +222,7 @@ Kurtosis & <%= format(statistics_tropes["kurtosis"]) %> \\ \bottomrule
 \end{tabular}
 \end{table}
 
-<<distribution:tropes, caption="Distribution of the number of films per trope", echo = False, f_pos = "H", f_size=(8,7), label="distribution:tropes">>=
+<<distribution:tropes, caption="Distribution of the number of films per trope", echo = False, f_pos = "HTBP", f_size=(8,7), label="distribution:tropes">>=
 import matplotlib.pyplot as plt
 plt.subplot(2, 1, 1)
 data.plot_tropes_histogram()
