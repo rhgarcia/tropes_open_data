@@ -1,6 +1,8 @@
 \documentclass[11pt,final]{article}
 \usepackage{fancyvrb, color, graphicx, hyperref, amsmath, url}
-\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+%\usepackage{minted}
+%\usepackage{palatino}
+%\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
 \usepackage{booktabs}
 \usepackage{float}
 \restylefloat{table}
@@ -11,7 +13,8 @@
 \author[3]{Pablo Garc\'ia S\'anchez}
 \author[4]{Gad Pitaru}
 \affil[1,4]{Badger Maps, San Francisco, CA, USA}
-\affil[2,3]{Universidad de Granada, Spain}
+\affil[2]{Universidad de Granada and CITIC-UGR, Spain}
+\affil[3]{Universidad de Cádiz and CITIC-UGR, Spain}
 \renewcommand\Authands{ and }
 
 \hypersetup
@@ -309,7 +312,7 @@ The results show the number of tropes in a film goes up to <%= list(occurrences_
 however, the average of tropes by film is (<%= round(statistics_films["mean"], 3) %>) and the data fits a
 log-logistic distribution (\textit{location}=<%= round(fisk_parameters[0],3) %>,
 \textit{shape}=<%= round(fisk_parameters[1],3) %>, \textit{scale}=<%= round(fisk_parameters[2],3) %>).
-This distribution is characterized by a long-tail and by a mode that is close to the minimum, that means that
+This distribution is characterized by a long tail and by a mode that is close to the minimum, that means that
 all the films tend to have just a dozen of tropes, and a great minority have hundred of them.
 In the discussion, we point out the fact that most of the films with
 more tropes are super-productions, a dozen of years old at maximum and in the adventure genre.
@@ -319,7 +322,7 @@ Regarding the tropes, the number of films by trope goes up to <%= list(occurrenc
 however, the average of films by trope is (<%= round(statistics_tropes["mean"], 3) %>) and the data fits a
 folded Cauchy distribution (\textit{location}=<%= round(foldcauchy_parameters[0],3) %>,
 \textit{shape}=<%= round(foldcauchy_parameters[1],3) %>, \textit{scale}=<%= round(foldcauchy_parameters[2],3) %>).
-This distribution is also characterized by a long-queue and by a mode that is close to the minimum, that means that
+This distribution is also characterized by a long tail and by a mode that is close to the minimum, that means that
 all the tropes tend to be discovered in a few films, but a great minority are present un a huge number of films.
 In the discussion, we show the need to have a good ontology of tropes so we can determine the root of the popularity
 of a small minority of tropes: if they are just easy to use or if their use correspond to other creative decisions.
