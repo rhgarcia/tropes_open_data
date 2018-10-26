@@ -35,8 +35,8 @@ generation of backstories in literature and open world videogames.
 Finally, as future work, we could avoid some current limitations of the
 dataset PicTropes by adding films meta information (as genre ontology,
 votes, popularity or release date) and tropes meta information (as the ease
-of application and the effects of this application), so the automatic gen-
-eration could lead to plots with higher quality. It would imply retrieving
+of application and the effects of this application), so the automatic
+generation could lead to plots with higher quality. It would imply retrieving
 data from movie databases using diferent techniques and prepare it so it
 matches with the tropes and films uniquely. Regarding DBTropes.org, as
 its last dump was extracted in 2016, it could be interesting to contribute to
