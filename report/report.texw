@@ -130,7 +130,7 @@ log-logistic distribution (\textit{location}=<%= round(fisk_parameters[0],3) %>,
 The features of the descriptive analysis can be found in Table~\ref{statistics-tropes-by-film}
 whereas the top-25 ranking of films by the number of tropes is provided in Table~\ref{top25-films-table} for further analysis.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Descriptive analysis of the number of tropes per film}
 \label{statistics-tropes-by-film}
@@ -160,7 +160,7 @@ data.plot_films_histogram_and_line()
 plt.show()
 @
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Top-25 ranking of films by  the number of tropes}
 \label{top25-films-table}
@@ -203,7 +203,7 @@ The features of the descriptive analysis can be found in Table~\ref{statistics-f
 whereas the top-25 ranking of tropes by the number of films they appear in is provided in
 Table~\ref{top25-tropes-table} for further analysis.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Descriptive analysis of the number of films per trope}
 \label{statistics-films-by-trope}
@@ -233,7 +233,7 @@ data.plot_tropes_histogram_and_line()
 plt.show()
 @
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Top-25 ranking of tropes by  the number of films}
 \label{top25-tropes-table}
