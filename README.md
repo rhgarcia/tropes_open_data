@@ -8,7 +8,7 @@ The dataset PicTropes links 5,925 films with 18,270 tropes from the database DB
 
 The results show the number of tropes in a film goes up to 515 (GuardiansOfTheGalaxy);
 however, the average of tropes by film is (43.434) and the
-data ts a log-logistic distribution (location=1.945, shape=0.054, scale=29.292).
+data fits a log-logistic distribution (location=1.945, shape=0.054, scale=29.292).
 This distribution is characterized by a long tail and by a mode that is close
 to the minimum, that means that all the films tend to have just a dozen
 of tropes, and a great minority have hundred of them. In the discussion,
@@ -16,7 +16,7 @@ we point out the fact that most of the films with more tropes are superproducti
 a dozen of years old at maximum and in the adventure genre.
 
 Regarding the tropes, the number of films by trope goes up to 1502 (ShoutOut);
-however, the average of films by trope is (14.086) and the data ts a folded
+however, the average of films by trope is (14.086) and the data fits a folded
 Cauchy distribution (location=0.13, shape=1.0, scale=3.735). This distribution
 is also characterized by a long tail and by a mode that is close to
 the minimum, that means that all the tropes tend to be discovered in a few
