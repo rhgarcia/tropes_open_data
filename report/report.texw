@@ -1,7 +1,5 @@
-\documentclass[a4paper,11pt,final]{article}
+\documentclass[11pt,final]{article}
 \usepackage{fancyvrb, color, graphicx, hyperref, amsmath, url}
-\usepackage{minted}
-\usepackage{palatino}
 \usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
 \usepackage{booktabs}
 \usepackage{float}
@@ -10,7 +8,7 @@
 
 \author[1]{Rub\'en H. Garc\'ia-Ortega}
 \author[2]{Juan J. Merelo Guerv\'os}
-\author[3]{Pablo Garc\'ia Garc\'ia}
+\author[3]{Pablo Garc\'ia S\'anchez}
 \author[4]{Gad Pitaru}
 \affil[1,4]{Badger Maps, San Francisco, CA, USA}
 \affil[2,3]{Universidad de Granada, Spain}
@@ -47,7 +45,7 @@ data = TropesAndFilms()
 \begin{abstract}
    From the database \textit{DBTropes.org}, we have created a dataset of films and the tropes that they use,
    which we have called \textit{PicTropes}.
-   In this report we provide the descriptive analysis and a further discussion on the dataset \textit{PicTropes}:
+   In this report we provide the descriptive analysis and a further discussion on this new dataset:
    The extracted features will help us decide the best values for a future recommendation system and content generator,
    whereas the analysis of the distribution functions that fit the best will help us interpret the relation
    between the films and the tropes that were found inside them.
@@ -311,7 +309,7 @@ The results show the number of tropes in a film goes up to <%= list(occurrences_
 however, the average of tropes by film is (<%= round(statistics_films["mean"], 3) %>) and the data fits a
 log-logistic distribution (\textit{location}=<%= round(fisk_parameters[0],3) %>,
 \textit{shape}=<%= round(fisk_parameters[1],3) %>, \textit{scale}=<%= round(fisk_parameters[2],3) %>).
-This distribution is characterized by a long-queue and by a mode that is close to the minimum, that means that
+This distribution is characterized by a long-tail and by a mode that is close to the minimum, that means that
 all the films tend to have just a dozen of tropes, and a great minority have hundred of them.
 In the discussion, we point out the fact that most of the films with
 more tropes are super-productions, a dozen of years old at maximum and in the adventure genre.
