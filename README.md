@@ -43,7 +43,7 @@ its last dump was extracted in 2016, it could be interesting to contribute to
 the project in order to have a newer version, with the latests additions and
 contributions.
 
-# tropes_open_data
+# How to build the report
 
 You need to install Python 3 first.
 
